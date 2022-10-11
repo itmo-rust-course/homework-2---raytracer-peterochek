@@ -9,7 +9,7 @@ use std::f64::consts::PI;
 use std::sync::Arc;
 
 fn main() {
-    let greenish = Material::new(1.0, [0.9, 0.5, 0.1, 0.0], Vec3::new(0.2, 0.4, 0.1), 120.0);
+    let greenish = Material::new(1.0, [0.9, 0.5, 0.1, 0.0], Vec3::new(0.1, 0.4, 0.2), 120.0);
     let glass = Material::new(1.5, [0.0, 0.9, 0.1, 0.8], Vec3::new(0.6, 0.7, 0.8), 125.0);
     let red_rubber = Material::new(1.0, [1.4, 0.3, 0.0, 0.0], Vec3::new(0.3, 0.1, 0.1), 10.0);
     let mirror = Material::new(1.0, [0.0, 16.0, 0.8, 0.0], Vec3::new(1.0, 1.0, 1.0), 1425.0);
@@ -32,8 +32,10 @@ fn main() {
         Vec3::new(30.0, 20.0, 30.0),
     ];
 
-    let width = 3840;
-    let height = 2160;
+    let scale_factor = 1;
+
+    let width = 3840 * scale_factor;
+    let height = 2160 * scale_factor;
     let fov = (60.0 / 180.0) * PI;
 
     let mut buffer: Vec<Vec3> = vec![Vec3::default(); width * height];
@@ -52,8 +54,8 @@ fn main() {
     });
 
     let new_buf = buffer
-        .iter()
-        .flat_map(|vec| {
+        .into_iter()
+        .flat_map(move |vec| {
             [
                 (vec.x() * 255.0) as u8,
                 (vec.y() * 255.0) as u8,
