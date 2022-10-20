@@ -38,35 +38,33 @@ fn main() {
     let height = 2160 * scale_factor;
     let fov = (60.0 / 180.0) * PI;
 
-    let mut buffer: Vec<Vec3> = vec![Vec3::default(); width * height];
+    let mut buffer: Vec<u8> = vec![0; width * height * 3];
 
-    buffer.par_iter_mut().enumerate().for_each(|(index, val)| {
-        let dir_x = ((index % width) as f64 + 0.5) - width as f64 / 2.0;
-        let dir_y = -((index / width) as f64 + 0.5) + height as f64 / 2.0;
-        let dir_z = -(height as f64) / (2.0 * (fov / 2.0).tan());
-        *val = cast_ray(
-            Vec3::default(),
-            Vec3::new(dir_x, dir_y, dir_z).norm(),
-            &lights,
-            &objects,
-            0,
-        );
-    });
+    buffer
+        .par_iter_mut()
+        .chunks(3)
+        .enumerate()
+        .for_each(|(index, mut val)| {
+            let dir_x = ((index % width) as f64 + 0.5) - width as f64 / 2.0;
+            let dir_y = -((index / width) as f64 + 0.5) + height as f64 / 2.0;
+            let dir_z = -(height as f64) / (2.0 * (fov / 2.0).tan());
 
-    let new_buf = buffer
-        .into_iter()
-        .flat_map(move |vec| {
-            [
-                (vec.x() * 255.0) as u8,
-                (vec.y() * 255.0) as u8,
-                (vec.z() * 255.0) as u8,
-            ]
-        })
-        .collect::<Vec<u8>>();
+            let vec = cast_ray(
+                Vec3::default(),
+                Vec3::new(dir_x, dir_y, dir_z).norm(),
+                &lights,
+                &objects,
+                0,
+            );
+
+            *val[0] = (vec.x() * 255.0) as u8;
+            *val[1] = (vec.y() * 255.0) as u8;
+            *val[2] = (vec.z() * 255.0) as u8;
+        });
 
     image::save_buffer(
         "image.png",
-        new_buf.as_slice(),
+        buffer.as_slice(),
         width as u32,
         height as u32,
         image::ColorType::Rgb8,

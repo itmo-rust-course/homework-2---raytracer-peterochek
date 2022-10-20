@@ -9,19 +9,9 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [profile.release]
-lto = true
+lto = "fat"
 codegen-units = 1
-opt-level = 3
-panic = "abort"
-overflow-checks = true
-
-[profile.dev]
-opt-level = 0
-debug = true
-debug-assertions = true
-overflow-checks = true
 
 [dependencies]
-#raytracing = { path = "../raytracing" }
 image = "0.24.4"
 rayon = "1.5.3"
