@@ -5,7 +5,7 @@ use raytracer::objects::plane::Plane;
 use raytracer::objects::sphere::Sphere;
 use raytracer::raytracing::physics::cast_ray;
 use raytracer::vec3::Vec3;
-use std::f64::consts::PI;
+use std::f32::consts::PI;
 use std::sync::Arc;
 
 fn main() {
@@ -45,9 +45,9 @@ fn main() {
         .chunks(3)
         .enumerate()
         .for_each(|(index, mut val)| {
-            let dir_x = ((index % width) as f64 + 0.5) - width as f64 / 2.0;
-            let dir_y = -((index / width) as f64 + 0.5) + height as f64 / 2.0;
-            let dir_z = -(height as f64) / (2.0 * (fov / 2.0).tan());
+            let dir_x = ((index % width) as f32 + 0.5) - width as f32 / 2.0;
+            let dir_y = -((index / width) as f32 + 0.5) + height as f32 / 2.0;
+            let dir_z = -(height as f32) / (2.0 * (fov / 2.0).tan());
 
             let vec = cast_ray(
                 Vec3::default(),

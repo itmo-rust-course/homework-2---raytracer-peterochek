@@ -3,15 +3,15 @@ use crate::objects::object::Object;
 use crate::raytracing::util::EPS;
 use crate::vec3::Vec3;
 
-#[derive(Clone, Copy)]
+#[derive(Clone)]
 pub struct Sphere {
     center: Vec3,
-    radius: f64,
+    radius: f32,
     material: Material,
 }
 
 impl Sphere {
-    pub fn new(center: Vec3, radius: f64, material: Material) -> Self {
+    pub fn new(center: Vec3, radius: f32, material: Material) -> Self {
         Self {
             center,
             radius,
@@ -19,13 +19,13 @@ impl Sphere {
         }
     }
 
-    pub fn radius(&self) -> f64 {
+    pub fn radius(&self) -> f32 {
         self.radius
     }
 }
 
 impl Object for Sphere {
-    fn intersect(&self, orig: Vec3, dir: Vec3) -> (bool, f64) {
+    fn intersect(&self, orig: Vec3, dir: Vec3) -> (bool, f32) {
         let l = self.center - orig;
         let tca = l * dir;
         let d2 = l * l - tca * tca;

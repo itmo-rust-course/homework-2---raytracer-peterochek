@@ -8,8 +8,8 @@ fn reflect(i: Vec3, n: Vec3) -> Vec3 {
     i - n * 2.0 * (i * n)
 }
 
-fn refract(i: Vec3, n: Vec3, eta_t: f64, eta_i: f64) -> Vec3 {
-    let cos = -((-1_f64).max(1_f64.min(i * n)));
+fn refract(i: Vec3, n: Vec3, eta_t: f32, eta_i: f32) -> Vec3 {
+    let cos = -(f32::max(-1.0, f32::min(1.0, i * n)));
     if cos < 0.0 {
         return refract(i, -n, eta_i, eta_t);
     }
@@ -31,7 +31,7 @@ fn scene_intersect(
     let mut n: Vec3 = Vec3::default();
     let mut material = Material::default();
 
-    let mut nearest_dist = f64::MAX;
+    let mut nearest_dist = f32::MAX;
 
     for o in objects {
         let (intersection, d) = o.intersect(orig, dir);
@@ -72,10 +72,9 @@ pub fn cast_ray(
         if hit && (shadow_pt - point).length() < (*light - point).length() {
             continue;
         }
-        diffuse_light_intensity += (0_f64).max(light_dir * n);
-        specular_light_intensity += (0_f64)
-            .max(-reflect(-light_dir, n) * dir)
-            .powf(material.specular_exponent());
+        diffuse_light_intensity += f32::max(0.0, light_dir * n);
+        specular_light_intensity +=
+            f32::max(0.0, -reflect(-light_dir, n) * dir).powf(material.specular_exponent());
     }
 
     material.diffuse_color() * diffuse_light_intensity * material.albedo()[0]

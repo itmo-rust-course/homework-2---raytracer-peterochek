@@ -3,15 +3,15 @@ use crate::objects::object::Object;
 use crate::raytracing::util::EPS;
 use crate::vec3::Vec3;
 
-#[derive(Clone, Copy)]
+#[derive(Clone)]
 pub struct Plane {
     center: Vec3,
     normal: Vec3,
-    size: f64,
+    size: f32,
 }
 
 impl Plane {
-    pub fn new(center: Vec3, normal: Vec3, size: f64) -> Self {
+    pub fn new(center: Vec3, normal: Vec3, size: f32) -> Self {
         Self {
             center,
             normal,
@@ -21,7 +21,7 @@ impl Plane {
 }
 
 impl Object for Plane {
-    fn intersect(&self, orig: Vec3, dir: Vec3) -> (bool, f64) {
+    fn intersect(&self, orig: Vec3, dir: Vec3) -> (bool, f32) {
         if (dir.y()).abs() > EPS {
             let d = -(orig.y() - self.center.y()) / dir.y();
             let p = orig + dir * d;

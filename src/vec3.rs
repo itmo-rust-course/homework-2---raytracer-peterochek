@@ -1,18 +1,18 @@
 #[derive(Debug, Clone, Copy)]
 pub struct Vec3 {
-    x: f64,
-    y: f64,
-    z: f64,
+    x: f32,
+    y: f32,
+    z: f32,
 }
 
 impl Vec3 {
     #[inline]
-    pub fn new(x: f64, y: f64, z: f64) -> Self {
+    pub fn new(x: f32, y: f32, z: f32) -> Self {
         Self { x, y, z }
     }
 
     #[inline]
-    pub fn length(&self) -> f64 {
+    pub fn length(&self) -> f32 {
         (self.x.powi(2) + self.y.powi(2) + self.z.powi(2)).sqrt()
     }
 
@@ -26,15 +26,18 @@ impl Vec3 {
         }
     }
 
-    pub fn x(&self) -> f64 {
+    #[inline]
+    pub fn x(&self) -> f32 {
         self.x
     }
 
-    pub fn y(&self) -> f64 {
+    #[inline]
+    pub fn y(&self) -> f32 {
         self.y
     }
 
-    pub fn z(&self) -> f64 {
+    #[inline]
+    pub fn z(&self) -> f32 {
         self.z
     }
 }
@@ -60,10 +63,10 @@ impl Add<Vec3> for Vec3 {
     }
 }
 
-impl Add<f64> for Vec3 {
+impl Add<f32> for Vec3 {
     type Output = Self;
     #[inline]
-    fn add(self, rhs: f64) -> Self {
+    fn add(self, rhs: f32) -> Self {
         Self {
             x: self.x.add(rhs),
             y: self.y.add(rhs),
@@ -84,10 +87,10 @@ impl Sub<Vec3> for Vec3 {
     }
 }
 
-impl Sub<f64> for Vec3 {
+impl Sub<f32> for Vec3 {
     type Output = Self;
     #[inline]
-    fn sub(self, rhs: f64) -> Self {
+    fn sub(self, rhs: f32) -> Self {
         Self {
             x: self.x.sub(rhs),
             y: self.y.sub(rhs),
@@ -97,17 +100,17 @@ impl Sub<f64> for Vec3 {
 }
 
 impl Mul<Vec3> for Vec3 {
-    type Output = f64;
+    type Output = f32;
     #[inline]
-    fn mul(self, rhs: Self) -> f64 {
+    fn mul(self, rhs: Self) -> f32 {
         self.x.mul(rhs.x) + self.y.mul(rhs.y) + self.z.mul(rhs.z)
     }
 }
 
-impl Mul<f64> for Vec3 {
+impl Mul<f32> for Vec3 {
     type Output = Self;
     #[inline]
-    fn mul(self, rhs: f64) -> Self {
+    fn mul(self, rhs: f32) -> Self {
         Self {
             x: self.x.mul(rhs),
             y: self.y.mul(rhs),
@@ -147,7 +150,7 @@ mod tests {
     }
 
     #[test]
-    fn test_vec3_add_f64() {
+    fn test_vec3_add_f32() {
         let vec1 = Vec3::new(1.0, 5.0, 7.0);
         let delta = 2.0;
         assert_eq!(Vec3::new(3.0, 7.0, 9.0), vec1 + delta);
@@ -161,7 +164,7 @@ mod tests {
     }
 
     #[test]
-    fn test_vec3_sub_f64() {
+    fn test_vec3_sub_f32() {
         let vec1 = Vec3::new(1.0, 5.0, 7.0);
         let delta = 2.0;
         assert_eq!(Vec3::new(-1.0, 3.0, 5.0), vec1 - delta);
@@ -175,7 +178,7 @@ mod tests {
     }
 
     #[test]
-    fn test_vec3_mul_f64() {
+    fn test_vec3_mul_f32() {
         let vec1 = Vec3::new(1.0, 5.0, 7.0);
         let delta = 2.0;
         assert_eq!(Vec3::new(2.0, 10.0, 14.0), vec1 * delta);

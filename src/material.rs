@@ -2,18 +2,18 @@ use crate::vec3::Vec3;
 
 #[derive(Clone, Copy)]
 pub struct Material {
-    refractive_index: f64,
-    albedo: [f64; 4],
+    refractive_index: f32,
+    albedo: [f32; 4],
     diffuse_color: Vec3,
-    specular_exponent: f64,
+    specular_exponent: f32,
 }
 
 impl Material {
     pub fn new(
-        refractive_index: f64,
-        albedo: [f64; 4],
+        refractive_index: f32,
+        albedo: [f32; 4],
         diffuse_color: Vec3,
-        specular_exponent: f64,
+        specular_exponent: f32,
     ) -> Self {
         Self {
             refractive_index,
@@ -23,11 +23,11 @@ impl Material {
         }
     }
 
-    pub fn refractive_index(&self) -> f64 {
+    pub fn refractive_index(&self) -> f32 {
         self.refractive_index
     }
 
-    pub fn albedo(&self) -> &[f64; 4] {
+    pub fn albedo(&self) -> &[f32; 4] {
         &self.albedo
     }
 
@@ -35,15 +35,15 @@ impl Material {
         self.diffuse_color
     }
 
-    pub fn specular_exponent(&self) -> f64 {
+    pub fn specular_exponent(&self) -> f32 {
         self.specular_exponent
     }
 
-    pub fn set_refractive_index(&mut self, refractive_index: f64) {
+    pub fn set_refractive_index(&mut self, refractive_index: f32) {
         self.refractive_index = refractive_index;
     }
 
-    pub fn set_albedo(&mut self, albedo: [f64; 4]) {
+    pub fn set_albedo(&mut self, albedo: [f32; 4]) {
         self.albedo = albedo;
     }
 
@@ -51,7 +51,7 @@ impl Material {
         self.diffuse_color = diffuse_color;
     }
 
-    pub fn set_specular_exponent(&mut self, specular_exponent: f64) {
+    pub fn set_specular_exponent(&mut self, specular_exponent: f32) {
         self.specular_exponent = specular_exponent;
     }
 }
